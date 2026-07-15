@@ -39,7 +39,13 @@ export async function POST(request: NextRequest) {
   });
 
   const link = `${process.env.APP_BASE_URL}/accept-invite/${token}`;
-  await sendInviteEmail(normalizedEmail, String(name).trim(), link);
+  let emailSent = true;
+  try {
+    await sendInviteEmail(normalizedEmail, String(name).trim(), link);
+  } catch (err) {
+    console.error("Failed to send invite email:", err);
+    emailSent = false;
+  }
 
-  return NextResponse.json({ ok: true, link });
+  return NextResponse.json({ ok: true, link, emailSent });
 }

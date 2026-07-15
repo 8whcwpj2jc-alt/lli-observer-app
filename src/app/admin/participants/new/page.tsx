@@ -9,6 +9,7 @@ export default function NewParticipantPage() {
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const [link, setLink] = useState<string | null>(null);
+  const [emailSent, setEmailSent] = useState(false);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -26,6 +27,7 @@ export default function NewParticipantPage() {
         return;
       }
       setLink(data.link);
+      setEmailSent(Boolean(data.emailSent));
     } finally {
       setSubmitting(false);
     }
@@ -38,8 +40,9 @@ export default function NewParticipantPage() {
       {link ? (
         <div className="rounded-lg border border-stone-200 bg-white p-4">
           <p className="text-stone-700 mb-2">
-            Participant created. If Resend is configured, an invite email was sent automatically. Otherwise, share
-            this link with them directly:
+            {emailSent
+              ? "Participant created and an invite email was sent automatically."
+              : "Participant created, but the invite email could not be sent automatically. Share this link with them directly:"}
           </p>
           <p className="text-sm text-stone-600 break-all bg-stone-50 border border-stone-200 rounded p-2 mb-4">
             {link}

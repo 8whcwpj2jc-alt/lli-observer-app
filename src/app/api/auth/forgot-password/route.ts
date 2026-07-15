@@ -21,7 +21,11 @@ export async function POST(request: NextRequest) {
         args: [user.id, token, expiresAt],
       });
       const link = `${process.env.APP_BASE_URL}/reset-password/${token}`;
-      await sendPasswordResetEmail(String(user.email), String(user.name), link);
+      try {
+        await sendPasswordResetEmail(String(user.email), String(user.name), link);
+      } catch (err) {
+        console.error("Failed to send password reset email:", err);
+      }
     }
   }
 
