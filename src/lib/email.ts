@@ -7,6 +7,10 @@ function getClient() {
 }
 
 const FROM = process.env.EMAIL_FROM || "onboarding@resend.dev";
+// While Resend is limited to a single verified sender, route all outbound mail here instead
+// of each participant's real address. The intended recipient is still shown in the email
+// itself so it can be forwarded on. Unset this once a verified sending domain is in place.
+const OVERRIDE_TO = process.env.EMAIL_OVERRIDE_TO || null;
 
 export async function sendInviteEmail(to: string, name: string, link: string) {
   const resend = getClient();
@@ -14,11 +18,13 @@ export async function sendInviteEmail(to: string, name: string, link: string) {
     console.warn(`[email] RESEND_API_KEY not set — invite link for ${to}: ${link}`);
     return;
   }
+  const recipient = OVERRIDE_TO || to;
   await resend.emails.send({
     from: FROM,
-    to,
-    subject: "You're invited to LLI Observer",
+    to: recipient,
+    subject: OVERRIDE_TO ? `You're invited to LLI Observer (for: ${name} <${to}>)` : "You're invited to LLI Observer",
     html: `
+      ${OVERRIDE_TO ? `<p><em>Intended for: ${name} &lt;${to}&gt; — forward this to them.</em></p>` : ""}
       <p>Hi ${name},</p>
       <p>You've been invited to the LLI Observer leadership-development tool. Click below to set your password and get started:</p>
       <p><a href="${link}">${link}</a></p>
@@ -33,11 +39,13 @@ export async function sendPasswordResetEmail(to: string, name: string, link: str
     console.warn(`[email] RESEND_API_KEY not set — reset link for ${to}: ${link}`);
     return;
   }
+  const recipient = OVERRIDE_TO || to;
   await resend.emails.send({
     from: FROM,
-    to,
-    subject: "Reset your LLI Observer password",
+    to: recipient,
+    subject: OVERRIDE_TO ? `Reset your LLI Observer password (for: ${name} <${to}>)` : "Reset your LLI Observer password",
     html: `
+      ${OVERRIDE_TO ? `<p><em>Intended for: ${name} &lt;${to}&gt; — forward this to them.</em></p>` : ""}
       <p>Hi ${name},</p>
       <p>Click below to reset your password:</p>
       <p><a href="${link}">${link}</a></p>
