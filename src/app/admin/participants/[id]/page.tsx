@@ -50,7 +50,7 @@ export default async function ParticipantDetailPage({ params }: { params: Promis
               const r = ratings.get(s.id);
               const score = r?.rating && r?.desire ? r.rating * r.desire : null;
               return (
-                <div key={s.id} className="rounded border border-stone-200 bg-white p-3 text-sm">
+                <div key={s.id} className="rounded border border-stone-200 bg-white/80 backdrop-blur-sm p-3 text-sm">
                   <div className="flex justify-between">
                     <span className="font-medium text-stone-800">{s.name}</span>
                     <span className="text-stone-500">
@@ -84,7 +84,7 @@ export default async function ParticipantDetailPage({ params }: { params: Promis
         ) : (
           <ul className="space-y-2">
             {leadershipEntries.map((entry, i) => (
-              <li key={entry.id} className="rounded border border-stone-200 bg-white p-3 text-sm">
+              <li key={entry.id} className="rounded border border-stone-200 bg-white/80 backdrop-blur-sm p-3 text-sm">
                 <p className="text-xs text-stone-400 mb-1">
                   {i === 0 ? "Current — " : ""}
                   {new Date(entry.created_at).toLocaleString()}
@@ -101,7 +101,7 @@ export default async function ParticipantDetailPage({ params }: { params: Promis
         {observers.map((o) => {
           const theirFeedback = feedback.filter((f) => f.observer_id === o.id);
           return (
-            <div key={o.id} className="rounded border border-stone-200 bg-white p-3 text-sm mb-2">
+            <div key={o.id} className="rounded border border-stone-200 bg-white/80 backdrop-blur-sm p-3 text-sm mb-2">
               <div className="flex justify-between">
                 <span className="font-medium text-stone-800">{o.name}</span>
                 <span className="text-stone-500">{o.status}</span>

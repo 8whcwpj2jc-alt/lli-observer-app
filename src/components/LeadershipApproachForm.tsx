@@ -32,12 +32,12 @@ export function LeadershipApproachForm() {
         onChange={(e) => setBody(e.target.value)}
         rows={8}
         placeholder="Write your leadership approach as you understand it today..."
-        className="w-full rounded-lg border border-stone-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-stone-400"
+        className="w-full rounded-lg border border-stone-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand/40"
       />
       <button
         type="submit"
         disabled={saving}
-        className="rounded bg-stone-800 text-white px-4 py-2 text-sm font-medium hover:bg-stone-700 disabled:opacity-50"
+        className="rounded bg-brand text-white px-4 py-2 text-sm font-medium hover:bg-brand-dark disabled:opacity-50"
       >
         {saving ? "Saving..." : "Save new entry"}
       </button>

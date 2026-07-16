@@ -16,7 +16,7 @@ export default async function AdminPage() {
         <h1 className="text-2xl font-semibold text-stone-800">Participants</h1>
         <Link
           href="/admin/participants/new"
-          className="rounded bg-stone-800 text-white px-4 py-2 text-sm font-medium hover:bg-stone-700"
+          className="rounded bg-brand text-white px-4 py-2 text-sm font-medium hover:bg-brand-dark"
         >
           + Add participant
         </Link>

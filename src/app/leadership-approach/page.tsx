@@ -28,7 +28,7 @@ export default async function LeadershipApproachPage() {
           <h2 className="text-lg font-medium text-stone-700 mb-3">History</h2>
           <ul className="space-y-4">
             {entries.map((entry, i) => (
-              <li key={entry.id} className="rounded-lg border border-stone-200 bg-white p-4">
+              <li key={entry.id} className="rounded-lg border border-stone-200 bg-white/80 backdrop-blur-sm p-4">
                 <p className="text-xs text-stone-400 mb-2">
                   {i === 0 ? "Current — " : ""}
                   {new Date(entry.created_at).toLocaleString()}

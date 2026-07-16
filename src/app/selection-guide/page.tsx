@@ -21,14 +21,14 @@ export default function SelectionGuidePage() {
 
       <section className="mb-10">
         <h2 className="text-lg font-medium text-stone-700 mb-3">Your commitment to your observers</h2>
-        <p className="text-stone-600 whitespace-pre-wrap bg-white border border-stone-200 rounded-lg p-4">
+        <p className="text-stone-600 whitespace-pre-wrap bg-white/80 backdrop-blur-sm border border-stone-200 rounded-lg p-4">
           {PARTICIPANT_COMMITMENT}
         </p>
       </section>
 
       <section>
         <h2 className="text-lg font-medium text-stone-700 mb-3">What your observers are committing to</h2>
-        <p className="text-stone-600 whitespace-pre-wrap bg-white border border-stone-200 rounded-lg p-4">
+        <p className="text-stone-600 whitespace-pre-wrap bg-white/80 backdrop-blur-sm border border-stone-200 rounded-lg p-4">
           {OBSERVER_COMMITMENT}
         </p>
       </section>

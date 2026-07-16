@@ -56,7 +56,7 @@ ${participantName}`;
   }
 
   return (
-    <div className="rounded-lg border border-stone-200 bg-white p-4">
+    <div className="rounded-lg border border-stone-200 bg-white/80 backdrop-blur-sm p-4">
       <h3 className="font-medium text-stone-800 mb-3">Add an observer</h3>
       <form onSubmit={handleSubmit} className="flex flex-wrap gap-2 mb-2">
         <input
@@ -74,7 +74,7 @@ ${participantName}`;
         <button
           type="submit"
           disabled={submitting}
-          className="rounded bg-stone-800 text-white px-3 py-1.5 text-sm font-medium hover:bg-stone-700 disabled:opacity-50"
+          className="rounded bg-brand text-white px-3 py-1.5 text-sm font-medium hover:bg-brand-dark disabled:opacity-50"
         >
           Add
         </button>
@@ -85,7 +85,7 @@ ${participantName}`;
           <p className="text-sm font-medium text-stone-700 mb-1">Their private link:</p>
           <p className="text-sm text-stone-600 break-all mb-3">{result.link}</p>
           <p className="text-sm font-medium text-stone-700 mb-1">Ready-to-copy invite email:</p>
-          <pre className="text-xs text-stone-600 whitespace-pre-wrap bg-white border border-stone-200 rounded p-2 mb-2">
+          <pre className="text-xs text-stone-600 whitespace-pre-wrap bg-white/80 backdrop-blur-sm border border-stone-200 rounded p-2 mb-2">
             {result.email}
           </pre>
           <button

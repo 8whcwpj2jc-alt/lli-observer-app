@@ -50,7 +50,7 @@ export default async function DashboardPage() {
             <Link
               key={tier}
               href={`/tier/${tier}`}
-              className="block rounded-lg border border-stone-200 bg-white p-4 hover:border-stone-400 transition"
+              className="block rounded-lg border border-stone-200 bg-white/80 backdrop-blur-sm p-4 hover:border-stone-400 transition"
             >
               <div className="flex items-baseline justify-between">
                 <span className="font-medium text-stone-800">
@@ -62,7 +62,7 @@ export default async function DashboardPage() {
               </div>
               <div className="mt-2 h-2 rounded-full bg-stone-100 overflow-hidden">
                 <div
-                  className="h-full bg-stone-700"
+                  className="h-full bg-brand"
                   style={{ width: `${skillCount ? (rated / skillCount) * 100 : 0}%` }}
                 />
               </div>
@@ -74,7 +74,7 @@ export default async function DashboardPage() {
         </div>
         <Link
           href="/leadership-approach"
-          className="block mt-4 rounded-lg border border-stone-200 bg-white p-4 hover:border-stone-400 transition"
+          className="block mt-4 rounded-lg border border-stone-200 bg-white/80 backdrop-blur-sm p-4 hover:border-stone-400 transition"
         >
           <span className="font-medium text-stone-800">Tier 5: My Leadership Approach</span>
         </Link>
@@ -105,7 +105,7 @@ export default async function DashboardPage() {
         ) : (
           <ul className="space-y-2 text-sm">
             {feedback.slice(0, 5).map((f) => (
-              <li key={`f-${f.id}`} className="rounded-md border border-stone-200 bg-white p-3">
+              <li key={`f-${f.id}`} className="rounded-md border border-stone-200 bg-white/80 backdrop-blur-sm p-3">
                 <span className="text-stone-500">{new Date(f.created_at).toLocaleDateString()}</span>
                 {" — "}
                 <span className="font-medium">{f.observer_name}</span> shared feedback
@@ -113,7 +113,7 @@ export default async function DashboardPage() {
               </li>
             ))}
             {experiments.slice(0, 5).map((e) => (
-              <li key={`e-${e.id}`} className="rounded-md border border-stone-200 bg-white p-3">
+              <li key={`e-${e.id}`} className="rounded-md border border-stone-200 bg-white/80 backdrop-blur-sm p-3">
                 <span className="text-stone-500">{new Date(e.created_at).toLocaleDateString()}</span>
                 {" — "}
                 Experiment (Tier {e.tier}, {e.status}): <span className="text-stone-600">{e.description}</span>

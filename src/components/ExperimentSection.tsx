@@ -42,7 +42,7 @@ export function ExperimentSection({ tier, experiments }: { tier: number; experim
   }
 
   return (
-    <div className="rounded-lg border border-stone-200 bg-white p-4">
+    <div className="rounded-lg border border-stone-200 bg-white/80 backdrop-blur-sm p-4">
       <h3 className="font-medium text-stone-800 mb-1">Experiment: strategies &amp; actions</h3>
       <p className="text-sm text-stone-500 mb-3">
         Turn what you found above into a concrete strategy or action for this tier.
@@ -53,12 +53,12 @@ export function ExperimentSection({ tier, experiments }: { tier: number; experim
           value={description}
           onChange={(e) => setDescription(e.target.value)}
           placeholder="e.g. Ask for feedback after every 1:1 this month"
-          className="flex-1 rounded border border-stone-300 px-2 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-stone-400"
+          className="flex-1 rounded border border-stone-300 px-2 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-brand/40"
         />
         <button
           type="submit"
           disabled={submitting}
-          className="rounded bg-stone-800 text-white px-3 py-1.5 text-sm font-medium hover:bg-stone-700 disabled:opacity-50"
+          className="rounded bg-brand text-white px-3 py-1.5 text-sm font-medium hover:bg-brand-dark disabled:opacity-50"
         >
           Add
         </button>

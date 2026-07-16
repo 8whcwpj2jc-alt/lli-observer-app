@@ -35,7 +35,7 @@ export function ObserverFeedbackForm({ token, skills }: { token: string; skills:
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-3 bg-white rounded-lg border border-stone-200 p-4">
+    <form onSubmit={handleSubmit} className="space-y-3 bg-white/80 backdrop-blur-sm rounded-lg border border-stone-200 p-4">
       <div>
         <label className="block text-sm font-medium text-stone-700 mb-1">
           What skill or attribute is this about? (optional)
@@ -66,13 +66,13 @@ export function ObserverFeedbackForm({ token, skills }: { token: string; skills:
           onChange={(e) => setNote(e.target.value)}
           rows={4}
           placeholder="What did you observe? Stick to what you actually saw or heard, not general impressions."
-          className="w-full rounded border border-stone-300 px-2 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-stone-400"
+          className="w-full rounded border border-stone-300 px-2 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-brand/40"
         />
       </div>
       <button
         type="submit"
         disabled={submitting}
-        className="rounded bg-stone-800 text-white px-4 py-2 text-sm font-medium hover:bg-stone-700 disabled:opacity-50"
+        className="rounded bg-brand text-white px-4 py-2 text-sm font-medium hover:bg-brand-dark disabled:opacity-50"
       >
         {submitting ? "Sending..." : "Send feedback"}
       </button>

@@ -26,14 +26,14 @@ export async function Nav() {
   const links = session.role === "admin" ? ADMIN_LINKS : PARTICIPANT_LINKS;
 
   return (
-    <header className="border-b border-stone-200 bg-white">
+    <header className="border-b border-stone-200/70 bg-white/70 backdrop-blur-md sticky top-0 z-10">
       <div className="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between gap-4">
-        <Link href={session.role === "admin" ? "/admin" : "/"} className="font-semibold text-stone-800 shrink-0">
+        <Link href={session.role === "admin" ? "/admin" : "/"} className="font-semibold text-brand shrink-0">
           Love &ndash; Lead
         </Link>
         <nav className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-stone-600 flex-1">
           {links.map((l) => (
-            <Link key={l.href} href={l.href} className="hover:text-stone-900 hover:underline">
+            <Link key={l.href} href={l.href} className="hover:text-brand hover:underline">
               {l.label}
             </Link>
           ))}

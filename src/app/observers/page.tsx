@@ -30,7 +30,7 @@ export default async function ObserversPage() {
         {observers.map((o) => {
           const theirFeedback = allFeedback.filter((f) => f.observer_id === o.id);
           return (
-            <div key={o.id} className="rounded-lg border border-stone-200 bg-white p-4">
+            <div key={o.id} className="rounded-lg border border-stone-200 bg-white/80 backdrop-blur-sm p-4">
               <div className="flex items-center justify-between mb-1">
                 <h3 className="font-medium text-stone-800">{o.name}</h3>
                 <span className="text-xs rounded-full px-2 py-0.5 bg-stone-100 text-stone-500">{o.status}</span>

@@ -28,7 +28,7 @@ export default async function TierPage({ params }: { params: Promise<{ n: string
         <p>{meta.context}</p>
       </div>
 
-      <div className="rounded-lg bg-stone-100 border border-stone-200 p-4 mb-6 text-sm text-stone-600 space-y-3">
+      <div className="rounded-lg bg-amber-50/70 backdrop-blur-sm border border-amber-200/60 p-4 mb-6 text-sm text-stone-600 space-y-3">
         <p>{TIER_INSTRUCTIONS_INTRO}</p>
         <div>
           <p className="font-medium text-stone-700">Rating: &ldquo;{RATING_QUESTION}&rdquo;</p>

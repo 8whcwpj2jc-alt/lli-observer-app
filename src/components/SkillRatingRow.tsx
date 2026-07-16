@@ -39,7 +39,7 @@ export function SkillRatingRow({
   }
 
   return (
-    <div className="rounded-lg border border-stone-200 bg-white p-4">
+    <div className="rounded-lg border border-stone-200 bg-white/80 backdrop-blur-sm p-4">
       <div className="flex flex-wrap items-center justify-between gap-3 mb-3">
         <h3 className="font-medium text-stone-800">{name}</h3>
         <div className="flex items-center gap-4 text-sm">
@@ -92,7 +92,7 @@ export function SkillRatingRow({
         onBlur={() => save(rating, desire, notes)}
         placeholder="Define this skill in your own words, your rationale, and your answers to the thought questions above..."
         rows={3}
-        className="w-full rounded border border-stone-300 px-2 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-stone-400"
+        className="w-full rounded border border-stone-300 px-2 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-brand/40"
       />
       <div className="text-xs text-stone-400 mt-1 h-4">
         {saving ? "Saving..." : savedAt ? "Saved" : ""}

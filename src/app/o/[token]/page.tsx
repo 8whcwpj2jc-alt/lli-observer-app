@@ -16,7 +16,7 @@ export default async function ObserverPage({ params }: { params: Promise<{ token
       <h1 className="text-2xl font-semibold text-stone-800 mb-1">{observer.participant_name}</h1>
       <p className="text-stone-500 mb-6">Hi {observer.name} — thank you for being one of their observers.</p>
 
-      <details className="mb-6 text-sm text-stone-600 bg-stone-100 rounded-lg border border-stone-200 p-4">
+      <details className="mb-6 text-sm text-stone-600 bg-amber-50/70 backdrop-blur-sm rounded-lg border border-amber-200/60 p-4">
         <summary className="cursor-pointer font-medium text-stone-700">
           Reminder: what you committed to as an observer
         </summary>
@@ -32,7 +32,7 @@ export default async function ObserverPage({ params }: { params: Promise<{ token
           <h2 className="text-lg font-medium text-stone-700 mb-3">Feedback you&apos;ve shared before</h2>
           <ul className="space-y-2">
             {pastFeedback.map((f) => (
-              <li key={f.id} className="text-sm rounded-md border border-stone-200 bg-white p-3">
+              <li key={f.id} className="text-sm rounded-md border border-stone-200 bg-white/80 backdrop-blur-sm p-3">
                 <span className="text-stone-400">{new Date(f.created_at).toLocaleDateString()}</span>
                 {f.skill_name ? ` · ${f.skill_name}` : " · General"} — <span className="text-stone-700">{f.note}</span>
               </li>
