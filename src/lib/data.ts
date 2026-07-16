@@ -31,6 +31,34 @@ export async function getSkillsForTier(tier: number): Promise<Skill[]> {
   }));
 }
 
+export type PriorityScore = {
+  skill_id: number;
+  skill_name: string;
+  tier: number;
+  rating: number;
+  desire: number;
+  score: number;
+};
+
+export async function getTopPriorityForParticipant(participantId: number, limit = 3): Promise<PriorityScore[]> {
+  const { rows } = await db.execute({
+    sql: `SELECT s.id as skill_id, s.name as skill_name, s.tier, r.rating, r.desire
+          FROM ratings r JOIN skills s ON s.id = r.skill_id
+          WHERE r.participant_id = ? AND r.rating IS NOT NULL AND r.desire IS NOT NULL
+          ORDER BY (r.rating * r.desire) DESC, s.tier, s.sort_order
+          LIMIT ?`,
+    args: [participantId, limit],
+  });
+  return rows.map((r) => ({
+    skill_id: Number(r.skill_id),
+    skill_name: String(r.skill_name),
+    tier: Number(r.tier),
+    rating: Number(r.rating),
+    desire: Number(r.desire),
+    score: Number(r.rating) * Number(r.desire),
+  }));
+}
+
 export async function getUserById(id: number) {
   const { rows } = await db.execute({
     sql: "SELECT id, name, email, role, created_at FROM users WHERE id = ?",

@@ -96,6 +96,40 @@ export function TierWizard({
         <span className="h-4">{saving ? "Saving..." : ""}</span>
       </div>
 
+      <div className="flex flex-wrap gap-1.5 mb-4">
+        {skills.map((s, i) => {
+          const answered = s.rating !== null && s.desire !== null;
+          const isCurrent = i === index && !onExperimentStep;
+          return (
+            <button
+              key={s.id}
+              onClick={() => setIndex(i)}
+              title={s.name}
+              className={`h-7 min-w-7 px-1.5 rounded-full text-xs font-medium border transition ${
+                isCurrent
+                  ? "bg-brand text-white border-brand"
+                  : answered
+                    ? "bg-brand/15 text-brand border-brand/30 hover:border-brand/60"
+                    : "bg-white/60 text-stone-500 border-stone-300 hover:border-stone-400"
+              }`}
+            >
+              {i + 1}
+            </button>
+          );
+        })}
+        <button
+          onClick={() => setIndex(skills.length)}
+          title="Experiment: strategies & actions"
+          className={`h-7 px-2.5 rounded-full text-xs font-medium border transition ${
+            onExperimentStep
+              ? "bg-brand text-white border-brand"
+              : "bg-white/60 text-stone-500 border-stone-300 hover:border-stone-400"
+          }`}
+        >
+          &#10003;
+        </button>
+      </div>
+
       {onExperimentStep ? (
         <ExperimentSection tier={tier} experiments={experiments} />
       ) : (

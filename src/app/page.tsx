@@ -7,6 +7,7 @@ import {
   getObserversForParticipant,
   getObserverFeedbackForParticipant,
   getExperimentsForParticipant,
+  getTopPriorityForParticipant,
 } from "@/lib/data";
 import { TIER_META } from "@/lib/content";
 
@@ -37,11 +38,43 @@ export default async function DashboardPage() {
   const observers = await getObserversForParticipant(session.userId);
   const feedback = await getObserverFeedbackForParticipant(session.userId);
   const experiments = await getExperimentsForParticipant(session.userId);
+  const topPriority = await getTopPriorityForParticipant(session.userId, 3);
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-10">
       <h1 className="text-2xl font-semibold text-stone-800 mb-1">Welcome back, {session.name.split(" ")[0]}</h1>
       <p className="text-stone-500 mb-8">Here&apos;s where your journey stands.</p>
+
+      {topPriority.length > 0 && (
+        <section className="mb-10">
+          <h2 className="text-lg font-medium text-stone-700 mb-1">Your top focus areas</h2>
+          <p className="text-sm text-stone-500 mb-3">
+            Highest combined Rating &times; Desire scores across everything you&apos;ve rated so far — the biggest mix
+            of gap and motivation.
+          </p>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            {topPriority.map((p, i) => (
+              <Link
+                key={p.skill_id}
+                href={`/tier/${p.tier}`}
+                className="block rounded-lg border border-stone-200 bg-white/80 backdrop-blur-sm p-4 hover:border-brand/50 transition"
+              >
+                <div className="flex items-baseline justify-between mb-1">
+                  <span className="text-xs font-semibold text-brand">#{i + 1}</span>
+                  <span className="text-xs text-stone-400">Tier {p.tier}</span>
+                </div>
+                <p className="font-medium text-stone-800 mb-2">{p.skill_name}</p>
+                <div className="h-2 rounded-full bg-stone-100 overflow-hidden mb-1">
+                  <div className="h-full bg-brand" style={{ width: `${(p.score / 25) * 100}%` }} />
+                </div>
+                <p className="text-xs text-stone-500">
+                  Score {p.score} (Rating {p.rating} &times; Desire {p.desire})
+                </p>
+              </Link>
+            ))}
+          </div>
+        </section>
+      )}
 
       <section className="mb-10">
         <h2 className="text-lg font-medium text-stone-700 mb-3">Tiers</h2>
