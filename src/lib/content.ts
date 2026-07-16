@@ -63,7 +63,15 @@ export const THOUGHT_QUESTIONS: string[] = [
   "What would need to change in your personal or professional life for you to more fully develop this skill or attribute?",
 ];
 
-export const TIER_INSTRUCTIONS_INTRO = `Hold this frame in mind: what opportunity exists for growth here? For each skill or attribute below: rate it, note your level of desire to grow in it, write a short definition and reflection in your own words, and answer the thought questions. When you're done, use the Experiment section at the bottom of the page to turn what you've found into a concrete strategy and action.`;
+export const DEFINITION_EXAMPLE = `e.g. "To me, being intentional means making conscious choices about how I show up, rather than reacting on autopilot."`;
+
+export const THOUGHT_QUESTION_EXAMPLES: string[] = [
+  `e.g. "I value honesty and accountability — this matters to me because it reflects those values in how I lead."`,
+  `e.g. "If I grow here, the people around me would likely feel more heard and trust me more when I give feedback."`,
+  `e.g. "I'd need to slow down before reacting in tense moments and ask more questions before sharing my own opinion."`,
+];
+
+export const TIER_INSTRUCTIONS_INTRO = `Hold this frame in mind: what opportunity exists for growth here? For each skill or attribute, you'll rate it, note your level of desire to grow in it, define it in your own words, and answer three thought questions. When you're done with all of them, use the Experiment step at the end to turn what you've found into a concrete strategy and action.`;
 
 export const TIER_META: Record<
   1 | 2 | 3 | 4,

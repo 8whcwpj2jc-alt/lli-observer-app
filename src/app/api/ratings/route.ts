@@ -6,7 +6,7 @@ export async function POST(request: NextRequest) {
   const session = await getSession();
   if (!session) return NextResponse.json({ error: "Not authenticated." }, { status: 401 });
 
-  const { skillId, rating, desire, notes } = await request.json();
+  const { skillId, rating, desire, definition, thought1, thought2, thought3 } = await request.json();
   if (!skillId) {
     return NextResponse.json({ error: "skillId is required." }, { status: 400 });
   }
@@ -18,7 +18,16 @@ export async function POST(request: NextRequest) {
     return n;
   };
 
-  await upsertRating(session.userId, Number(skillId), clamp(rating), clamp(desire), notes ?? null);
+  await upsertRating(
+    session.userId,
+    Number(skillId),
+    clamp(rating),
+    clamp(desire),
+    definition ?? null,
+    thought1 ?? null,
+    thought2 ?? null,
+    thought3 ?? null
+  );
 
   return NextResponse.json({ ok: true });
 }

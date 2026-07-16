@@ -1,9 +1,8 @@
 import { notFound, redirect } from "next/navigation";
 import { getSession } from "@/lib/session";
 import { getSkillsForTier, getRatingsForParticipant, getExperimentsForParticipant } from "@/lib/data";
-import { TIER_META, TIER_INSTRUCTIONS_INTRO, RATING_QUESTION, RATING_SCALE_LEGEND, DESIRE_QUESTION, DESIRE_SCALE_HINT, SCORING_EXPLANATION, THOUGHT_QUESTIONS } from "@/lib/content";
-import { SkillRatingRow } from "@/components/SkillRatingRow";
-import { ExperimentSection } from "@/components/ExperimentSection";
+import { TIER_META, TIER_INSTRUCTIONS_INTRO, RATING_QUESTION, RATING_SCALE_LEGEND, DESIRE_QUESTION, DESIRE_SCALE_HINT, SCORING_EXPLANATION } from "@/lib/content";
+import { TierWizard } from "@/components/TierWizard";
 
 export default async function TierPage({ params }: { params: Promise<{ n: string }> }) {
   const { n } = await params;
@@ -18,6 +17,20 @@ export default async function TierPage({ params }: { params: Promise<{ n: string
   const skills = await getSkillsForTier(tier);
   const ratings = await getRatingsForParticipant(session.userId);
   const experiments = await getExperimentsForParticipant(session.userId, tier);
+
+  const skillStates = skills.map((skill) => {
+    const r = ratings.get(skill.id);
+    return {
+      id: skill.id,
+      name: skill.name,
+      rating: r?.rating ?? null,
+      desire: r?.desire ?? null,
+      definition: r?.definition ?? "",
+      thought1: r?.thought_response_1 ?? "",
+      thought2: r?.thought_response_2 ?? "",
+      thought3: r?.thought_response_3 ?? "",
+    };
+  });
 
   return (
     <div className="max-w-3xl mx-auto px-4 py-10">
@@ -39,33 +52,9 @@ export default async function TierPage({ params }: { params: Promise<{ n: string
           <p>{DESIRE_SCALE_HINT}</p>
         </div>
         <p>{SCORING_EXPLANATION}</p>
-        <div>
-          <p className="font-medium text-stone-700">Thought questions to answer for each skill:</p>
-          <ol className="list-decimal list-inside">
-            {THOUGHT_QUESTIONS.map((q, i) => (
-              <li key={i}>{q}</li>
-            ))}
-          </ol>
-        </div>
       </div>
 
-      <div className="space-y-4 mb-6">
-        {skills.map((skill) => {
-          const r = ratings.get(skill.id);
-          return (
-            <SkillRatingRow
-              key={skill.id}
-              skillId={skill.id}
-              name={skill.name}
-              initialRating={r?.rating ?? null}
-              initialDesire={r?.desire ?? null}
-              initialNotes={r?.notes ?? null}
-            />
-          );
-        })}
-      </div>
-
-      <ExperimentSection tier={tier} experiments={experiments} />
+      <TierWizard tier={tier} initialSkills={skillStates} experiments={experiments} />
     </div>
   );
 }

@@ -44,10 +44,30 @@ const SKILLS = [
   [4, "Decision making"],
 ];
 
+async function migrateRatingsColumns() {
+  const { rows } = await client.execute("PRAGMA table_info(ratings)");
+  const existing = new Set(rows.map((r) => r.name));
+
+  const wanted = ["definition", "thought_response_1", "thought_response_2", "thought_response_3"];
+  for (const col of wanted) {
+    if (!existing.has(col)) {
+      await client.execute(`ALTER TABLE ratings ADD COLUMN ${col} TEXT`);
+      console.log(`Added column ratings.${col}`);
+    }
+  }
+
+  if (existing.has("notes")) {
+    await client.execute("ALTER TABLE ratings DROP COLUMN notes");
+    console.log("Dropped legacy column ratings.notes");
+  }
+}
+
 async function main() {
   const schema = readFileSync(path.join(__dirname, "..", "db", "schema.sql"), "utf-8");
   await client.executeMultiple(schema);
   console.log("Schema applied.");
+
+  await migrateRatingsColumns();
 
   const { rows } = await client.execute("SELECT COUNT(*) as count FROM skills");
   if (Number(rows[0].count) > 0) {

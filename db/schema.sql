@@ -29,7 +29,10 @@ CREATE TABLE IF NOT EXISTS ratings (
   skill_id INTEGER NOT NULL REFERENCES skills(id),
   rating INTEGER CHECK (rating BETWEEN 1 AND 5),
   desire INTEGER CHECK (desire BETWEEN 1 AND 5),
-  notes TEXT,
+  definition TEXT,
+  thought_response_1 TEXT,
+  thought_response_2 TEXT,
+  thought_response_3 TEXT,
   updated_at TEXT NOT NULL DEFAULT (datetime('now')),
   PRIMARY KEY (participant_id, skill_id)
 );

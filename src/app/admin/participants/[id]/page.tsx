@@ -57,7 +57,18 @@ export default async function ParticipantDetailPage({ params }: { params: Promis
                       {r?.rating ?? "–"} / {r?.desire ?? "–"} → score {score ?? "–"}
                     </span>
                   </div>
-                  {r?.notes && <p className="text-stone-600 mt-1">{r.notes}</p>}
+                  {r?.definition && (
+                    <p className="text-stone-600 mt-1">
+                      <span className="font-medium text-stone-500">Definition:</span> {r.definition}
+                    </p>
+                  )}
+                  {[r?.thought_response_1, r?.thought_response_2, r?.thought_response_3]
+                    .filter(Boolean)
+                    .map((t, i) => (
+                      <p key={i} className="text-stone-600 mt-1">
+                        <span className="font-medium text-stone-500">Thought {i + 1}:</span> {t}
+                      </p>
+                    ))}
                 </div>
               );
             })}

@@ -11,7 +11,10 @@ export type Rating = {
   skill_id: number;
   rating: number | null;
   desire: number | null;
-  notes: string | null;
+  definition: string | null;
+  thought_response_1: string | null;
+  thought_response_2: string | null;
+  thought_response_3: string | null;
   updated_at: string;
 };
 
@@ -56,7 +59,8 @@ export async function getAllSkills(): Promise<Skill[]> {
 
 export async function getRatingsForParticipant(participantId: number): Promise<Map<number, Rating>> {
   const { rows } = await db.execute({
-    sql: "SELECT skill_id, rating, desire, notes, updated_at FROM ratings WHERE participant_id = ?",
+    sql: `SELECT skill_id, rating, desire, definition, thought_response_1, thought_response_2, thought_response_3, updated_at
+          FROM ratings WHERE participant_id = ?`,
     args: [participantId],
   });
   const map = new Map<number, Rating>();
@@ -65,7 +69,10 @@ export async function getRatingsForParticipant(participantId: number): Promise<M
       skill_id: Number(r.skill_id),
       rating: r.rating === null ? null : Number(r.rating),
       desire: r.desire === null ? null : Number(r.desire),
-      notes: r.notes === null ? null : String(r.notes),
+      definition: r.definition === null ? null : String(r.definition),
+      thought_response_1: r.thought_response_1 === null ? null : String(r.thought_response_1),
+      thought_response_2: r.thought_response_2 === null ? null : String(r.thought_response_2),
+      thought_response_3: r.thought_response_3 === null ? null : String(r.thought_response_3),
       updated_at: String(r.updated_at),
     });
   }
@@ -77,14 +84,19 @@ export async function upsertRating(
   skillId: number,
   rating: number | null,
   desire: number | null,
-  notes: string | null
+  definition: string | null,
+  thought1: string | null,
+  thought2: string | null,
+  thought3: string | null
 ) {
   await db.execute({
-    sql: `INSERT INTO ratings (participant_id, skill_id, rating, desire, notes, updated_at)
-          VALUES (?, ?, ?, ?, ?, datetime('now'))
+    sql: `INSERT INTO ratings (participant_id, skill_id, rating, desire, definition, thought_response_1, thought_response_2, thought_response_3, updated_at)
+          VALUES (?, ?, ?, ?, ?, ?, ?, ?, datetime('now'))
           ON CONFLICT(participant_id, skill_id)
-          DO UPDATE SET rating = excluded.rating, desire = excluded.desire, notes = excluded.notes, updated_at = datetime('now')`,
-    args: [participantId, skillId, rating, desire, notes],
+          DO UPDATE SET rating = excluded.rating, desire = excluded.desire, definition = excluded.definition,
+                         thought_response_1 = excluded.thought_response_1, thought_response_2 = excluded.thought_response_2,
+                         thought_response_3 = excluded.thought_response_3, updated_at = datetime('now')`,
+    args: [participantId, skillId, rating, desire, definition, thought1, thought2, thought3],
   });
 }
 
