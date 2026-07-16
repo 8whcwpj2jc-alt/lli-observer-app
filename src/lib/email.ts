@@ -19,7 +19,7 @@ export async function sendInviteEmail(to: string, name: string, link: string) {
     return;
   }
   const recipient = OVERRIDE_TO || to;
-  await resend.emails.send({
+  const { error } = await resend.emails.send({
     from: FROM,
     to: recipient,
     subject: OVERRIDE_TO ? `You're invited to LLI Observer (for: ${name} <${to}>)` : "You're invited to LLI Observer",
@@ -31,6 +31,7 @@ export async function sendInviteEmail(to: string, name: string, link: string) {
       <p>This link will expire in 7 days.</p>
     `,
   });
+  if (error) throw new Error(`Resend error: ${error.message}`);
 }
 
 export async function sendPasswordResetEmail(to: string, name: string, link: string) {
@@ -40,7 +41,7 @@ export async function sendPasswordResetEmail(to: string, name: string, link: str
     return;
   }
   const recipient = OVERRIDE_TO || to;
-  await resend.emails.send({
+  const { error } = await resend.emails.send({
     from: FROM,
     to: recipient,
     subject: OVERRIDE_TO ? `Reset your LLI Observer password (for: ${name} <${to}>)` : "Reset your LLI Observer password",
@@ -52,4 +53,5 @@ export async function sendPasswordResetEmail(to: string, name: string, link: str
       <p>If you didn't request this, you can ignore this email. This link expires in 1 hour.</p>
     `,
   });
+  if (error) throw new Error(`Resend error: ${error.message}`);
 }
