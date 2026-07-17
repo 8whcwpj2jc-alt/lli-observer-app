@@ -4,6 +4,7 @@ CREATE TABLE IF NOT EXISTS users (
   password_hash TEXT,
   name TEXT NOT NULL,
   role TEXT NOT NULL CHECK (role IN ('admin','participant')),
+  guidelines_acknowledged_at TEXT,
   created_at TEXT NOT NULL DEFAULT (datetime('now'))
 );
 

@@ -46,6 +46,7 @@ export async function POST(request: NextRequest) {
     userId: Number(row.user_id),
     role: row.role as "admin" | "participant",
     name: String(row.name),
+    guidelinesAcknowledged: false,
   });
 
   return NextResponse.json({ ok: true });

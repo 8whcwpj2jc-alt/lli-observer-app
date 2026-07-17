@@ -62,12 +62,23 @@ async function migrateRatingsColumns() {
   }
 }
 
+async function migrateUsersColumns() {
+  const { rows } = await client.execute("PRAGMA table_info(users)");
+  const existing = new Set(rows.map((r) => r.name));
+
+  if (!existing.has("guidelines_acknowledged_at")) {
+    await client.execute("ALTER TABLE users ADD COLUMN guidelines_acknowledged_at TEXT");
+    console.log("Added column users.guidelines_acknowledged_at");
+  }
+}
+
 async function main() {
   const schema = readFileSync(path.join(__dirname, "..", "db", "schema.sql"), "utf-8");
   await client.executeMultiple(schema);
   console.log("Schema applied.");
 
   await migrateRatingsColumns();
+  await migrateUsersColumns();
 
   const { rows } = await client.execute("SELECT COUNT(*) as count FROM skills");
   if (Number(rows[0].count) > 0) {

@@ -1,4 +1,4 @@
-import { APP_NAME, APP_TAGLINE, BACKGROUND_RATIONALE, PARTICIPANT_GUIDELINES } from "@/lib/content";
+import { APP_NAME, APP_TAGLINE, BACKGROUND_RATIONALE } from "@/lib/content";
 
 export default function AboutPage() {
   return (
@@ -6,7 +6,7 @@ export default function AboutPage() {
       <h1 className="text-3xl font-semibold text-stone-800">{APP_NAME}</h1>
       <p className="text-stone-500 mb-8">{APP_TAGLINE}</p>
 
-      <section className="space-y-6 mb-12">
+      <section className="space-y-6">
         <h2 className="text-xl font-semibold text-stone-800">Background &amp; Rationale</h2>
         {BACKGROUND_RATIONALE.map((section) => (
           <div key={section.heading}>
@@ -17,15 +17,6 @@ export default function AboutPage() {
               </p>
             ))}
           </div>
-        ))}
-      </section>
-
-      <section className="space-y-4">
-        <h2 className="text-xl font-semibold text-stone-800">Participant Guidelines</h2>
-        {PARTICIPANT_GUIDELINES.map((para, i) => (
-          <p key={i} className="text-stone-600 leading-relaxed">
-            {para}
-          </p>
         ))}
       </section>
     </div>

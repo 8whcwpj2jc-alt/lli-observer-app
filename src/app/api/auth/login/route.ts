@@ -11,7 +11,7 @@ export async function POST(request: NextRequest) {
   }
 
   const { rows } = await db.execute({
-    sql: "SELECT id, email, password_hash, name, role FROM users WHERE email = ?",
+    sql: "SELECT id, email, password_hash, name, role, guidelines_acknowledged_at FROM users WHERE email = ?",
     args: [String(email).toLowerCase().trim()],
   });
 
@@ -29,6 +29,7 @@ export async function POST(request: NextRequest) {
     userId: Number(user.id),
     role: user.role as "admin" | "participant",
     name: String(user.name),
+    guidelinesAcknowledged: user.guidelines_acknowledged_at !== null,
   });
 
   return NextResponse.json({ ok: true, role: user.role });

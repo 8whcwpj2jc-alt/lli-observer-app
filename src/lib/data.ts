@@ -119,6 +119,13 @@ export async function getHighestUnlockedTier(participantId: number): Promise<num
   return 5;
 }
 
+export async function acknowledgeGuidelines(userId: number) {
+  await db.execute({
+    sql: "UPDATE users SET guidelines_acknowledged_at = datetime('now') WHERE id = ?",
+    args: [userId],
+  });
+}
+
 export async function getUserById(id: number) {
   const { rows } = await db.execute({
     sql: "SELECT id, name, email, role, created_at FROM users WHERE id = ?",

@@ -25,6 +25,7 @@ export async function Nav() {
       { href: "/observers", label: "Observers" },
       { href: "/resources", label: "Resources" },
       { href: "/about", label: "About" },
+      { href: "/participant-guidelines", label: "Participant Guidelines" },
     ];
   }
 

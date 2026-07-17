@@ -36,6 +36,13 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL("/", request.url));
   }
 
+  const guidelinesExempt = pathname === "/participant-guidelines" || pathname === "/api/acknowledge-guidelines";
+  if (session.role === "participant" && !session.guidelinesAcknowledged && !guidelinesExempt) {
+    const guidelinesUrl = new URL("/participant-guidelines", request.url);
+    guidelinesUrl.searchParams.set("next", pathname);
+    return NextResponse.redirect(guidelinesUrl);
+  }
+
   return NextResponse.next();
 }
 

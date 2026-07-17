@@ -14,6 +14,7 @@ export type SessionPayload = {
   userId: number;
   role: "admin" | "participant";
   name: string;
+  guidelinesAcknowledged: boolean;
 };
 
 export async function createSessionToken(payload: SessionPayload): Promise<string> {
@@ -32,7 +33,12 @@ export async function verifySessionToken(token: string): Promise<SessionPayload 
       (payload.role === "admin" || payload.role === "participant") &&
       typeof payload.name === "string"
     ) {
-      return { userId: payload.userId, role: payload.role, name: payload.name };
+      return {
+        userId: payload.userId,
+        role: payload.role,
+        name: payload.name,
+        guidelinesAcknowledged: Boolean(payload.guidelinesAcknowledged),
+      };
     }
     return null;
   } catch {
