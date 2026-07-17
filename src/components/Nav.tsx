@@ -17,6 +17,7 @@ export async function Nav() {
     const unlockedTier = await getHighestUnlockedTier(session.userId);
     participantLinks = [
       { href: "/", label: "Dashboard" },
+      { href: "/how-it-works", label: "How This App Works" },
       { href: "/tier/1", label: "Tier 1", locked: 1 > unlockedTier },
       { href: "/tier/2", label: "Tier 2", locked: 2 > unlockedTier },
       { href: "/tier/3", label: "Tier 3", locked: 3 > unlockedTier },

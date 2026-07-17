@@ -5,6 +5,35 @@
 export const APP_NAME = "Love – Lead";
 export const APP_TAGLINE = "Leadership Development Institute for Emerging Leaders";
 
+// App-mechanics reference, not sourced from the original framework — explains the software
+// itself (navigation, the wizard, auto-save) rather than the leadership content.
+export const HOW_IT_WORKS: { heading: string; body: string }[] = [
+  {
+    heading: "Your Dashboard",
+    body: `This is home base — it's what you land on after logging in. It shows your top 3 focus areas (your highest combined Rating × Desire scores across everything you've rated so far), a progress tile for each tier, a summary of your observers, and your most recent activity.`,
+  },
+  {
+    heading: "Working through a tier",
+    body: `Each of Tiers 1-4 walks you through one skill or attribute at a time — you'll rate it, note your desire to grow it, write your own definition, and answer three thought questions. Use the Previous/Next buttons to move in order, or click any numbered circle above the form to jump straight to a specific skill. The checkmark at the end of the row is the Experiment step, where you turn what you found into a concrete strategy and action for that tier.`,
+  },
+  {
+    heading: "Moving to the next tier",
+    body: `Tiers build on each other, so a tier only unlocks once every skill in the one before it has a rating, desire, definition, and all three thought questions answered — plus at least one experiment. A locked tier shows a 🔒 in the menu; if you visit one before it's ready, the page tells you exactly what's still missing and links you back to finish it.`,
+  },
+  {
+    heading: "My Leadership Approach (Tier 5)",
+    body: `This opens once Tiers 1-4 are fully complete. It's a running journal rather than a form — write your leadership approach as you understand it today, and each new entry is saved below the last so you can watch it evolve over time.`,
+  },
+  {
+    heading: "Observers",
+    body: `Add the people you want real-world feedback from. Each observer gets their own private link — no login required — plus you'll get a ready-to-copy invite email to send them. Whatever feedback they share shows up back on your Observers page, tied to whichever skill they mentioned.`,
+  },
+  {
+    heading: "Everything saves automatically",
+    body: `There's no submit button on most fields — just type your answer or pick a rating, and it saves on its own as soon as you click away or make a selection. If you navigate away and come back, everything you entered will still be there.`,
+  },
+];
+
 export const BACKGROUND_RATIONALE: { heading: string; body: string[] }[] = [
   {
     heading: "What does love have to do with it?",
