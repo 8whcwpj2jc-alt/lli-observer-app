@@ -1,18 +1,7 @@
 import Link from "next/link";
 import { getSession } from "@/lib/session";
+import { getHighestUnlockedTier } from "@/lib/data";
 import { LogoutButton } from "./LogoutButton";
-
-const PARTICIPANT_LINKS = [
-  { href: "/", label: "Dashboard" },
-  { href: "/tier/1", label: "Tier 1" },
-  { href: "/tier/2", label: "Tier 2" },
-  { href: "/tier/3", label: "Tier 3" },
-  { href: "/tier/4", label: "Tier 4" },
-  { href: "/leadership-approach", label: "Leadership Approach" },
-  { href: "/observers", label: "Observers" },
-  { href: "/resources", label: "Resources" },
-  { href: "/about", label: "About" },
-];
 
 const ADMIN_LINKS = [
   { href: "/admin", label: "Participants" },
@@ -23,7 +12,23 @@ export async function Nav() {
   const session = await getSession();
   if (!session) return null;
 
-  const links = session.role === "admin" ? ADMIN_LINKS : PARTICIPANT_LINKS;
+  let participantLinks: { href: string; label: string; locked?: boolean }[] = [];
+  if (session.role !== "admin") {
+    const unlockedTier = await getHighestUnlockedTier(session.userId);
+    participantLinks = [
+      { href: "/", label: "Dashboard" },
+      { href: "/tier/1", label: "Tier 1", locked: 1 > unlockedTier },
+      { href: "/tier/2", label: "Tier 2", locked: 2 > unlockedTier },
+      { href: "/tier/3", label: "Tier 3", locked: 3 > unlockedTier },
+      { href: "/tier/4", label: "Tier 4", locked: 4 > unlockedTier },
+      { href: "/leadership-approach", label: "Leadership Approach", locked: 5 > unlockedTier },
+      { href: "/observers", label: "Observers" },
+      { href: "/resources", label: "Resources" },
+      { href: "/about", label: "About" },
+    ];
+  }
+
+  const links = session.role === "admin" ? ADMIN_LINKS : participantLinks;
 
   return (
     <header className="border-b border-stone-200/70 bg-white/70 backdrop-blur-md sticky top-0 z-10">
@@ -35,6 +40,7 @@ export async function Nav() {
           {links.map((l) => (
             <Link key={l.href} href={l.href} className="hover:text-brand hover:underline">
               {l.label}
+              {"locked" in l && l.locked ? " \u{1F512}" : ""}
             </Link>
           ))}
         </nav>

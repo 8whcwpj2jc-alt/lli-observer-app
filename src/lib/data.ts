@@ -40,15 +40,19 @@ export type PriorityScore = {
   score: number;
 };
 
-export async function getTopPriorityForParticipant(participantId: number, limit = 3): Promise<PriorityScore[]> {
-  const { rows } = await db.execute({
-    sql: `SELECT s.id as skill_id, s.name as skill_name, s.tier, r.rating, r.desire
+export async function getTopPriorityForParticipant(
+  participantId: number,
+  limit = 3,
+  tier?: number
+): Promise<PriorityScore[]> {
+  const sql = `SELECT s.id as skill_id, s.name as skill_name, s.tier, r.rating, r.desire
           FROM ratings r JOIN skills s ON s.id = r.skill_id
           WHERE r.participant_id = ? AND r.rating IS NOT NULL AND r.desire IS NOT NULL
+          ${tier ? "AND s.tier = ?" : ""}
           ORDER BY (r.rating * r.desire) DESC, s.tier, s.sort_order
-          LIMIT ?`,
-    args: [participantId, limit],
-  });
+          LIMIT ?`;
+  const args = tier ? [participantId, tier, limit] : [participantId, limit];
+  const { rows } = await db.execute({ sql, args });
   return rows.map((r) => ({
     skill_id: Number(r.skill_id),
     skill_name: String(r.skill_name),
@@ -57,6 +61,62 @@ export async function getTopPriorityForParticipant(participantId: number, limit 
     desire: Number(r.desire),
     score: Number(r.rating) * Number(r.desire),
   }));
+}
+
+function isNonEmpty(v: unknown): boolean {
+  return v !== null && v !== undefined && String(v).trim() !== "";
+}
+
+export type TierCompletion = {
+  tier: number;
+  totalSkills: number;
+  fullyAnsweredSkills: number;
+  hasExperiment: boolean;
+  complete: boolean;
+};
+
+export async function getTierCompletion(participantId: number, tier: number): Promise<TierCompletion> {
+  const { rows } = await db.execute({
+    sql: `SELECT r.rating, r.desire, r.definition, r.thought_response_1, r.thought_response_2, r.thought_response_3
+          FROM skills s
+          LEFT JOIN ratings r ON r.skill_id = s.id AND r.participant_id = ?
+          WHERE s.tier = ?`,
+    args: [participantId, tier],
+  });
+
+  const totalSkills = rows.length;
+  const fullyAnsweredSkills = rows.filter(
+    (r) =>
+      r.rating !== null &&
+      r.desire !== null &&
+      isNonEmpty(r.definition) &&
+      isNonEmpty(r.thought_response_1) &&
+      isNonEmpty(r.thought_response_2) &&
+      isNonEmpty(r.thought_response_3)
+  ).length;
+
+  const { rows: expRows } = await db.execute({
+    sql: "SELECT COUNT(*) as count FROM experiments WHERE participant_id = ? AND tier = ?",
+    args: [participantId, tier],
+  });
+  const hasExperiment = Number(expRows[0].count) > 0;
+
+  return {
+    tier,
+    totalSkills,
+    fullyAnsweredSkills,
+    hasExperiment,
+    complete: totalSkills > 0 && fullyAnsweredSkills === totalSkills && hasExperiment,
+  };
+}
+
+/** Returns the highest tier (1-4) the participant may access, or 5 if all of Tiers 1-4 are complete. */
+export async function getHighestUnlockedTier(participantId: number): Promise<number> {
+  for (let t = 1; t <= 4; t++) {
+    const completion = await getTierCompletion(participantId, t);
+    if (!completion.complete) return t;
+  }
+  return 5;
 }
 
 export async function getUserById(id: number) {
